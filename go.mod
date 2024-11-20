@@ -1,4 +1,4 @@
-module github.com/garden-raccoon/orders
+module github.com/garden-raccoon/orders-admin-package
 
 go 1.23.2
 
