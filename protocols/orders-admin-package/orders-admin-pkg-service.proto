@@ -8,7 +8,7 @@ import "orders-admin-pkg-models.proto";
 // OrderService is
 service OrderService {
     rpc GetOrders(OrderAdminEmpty) returns(models.OrdersAdmin);
-    rpc CreateOrder(models.OrderAdmin) returns(OrderAdminEmpty);
+    rpc CreateOrders(models.OrdersAdmin) returns(OrderAdminEmpty);
     rpc OrderByName(OrderAdminGetter) returns(models.OrderAdmin);
 
 

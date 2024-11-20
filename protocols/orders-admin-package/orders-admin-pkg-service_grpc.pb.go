@@ -19,9 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OrderService_GetOrders_FullMethodName   = "/models.OrderService/GetOrders"
-	OrderService_CreateOrder_FullMethodName = "/models.OrderService/CreateOrder"
-	OrderService_OrderByName_FullMethodName = "/models.OrderService/OrderByName"
+	OrderService_GetOrders_FullMethodName    = "/models.OrderService/GetOrders"
+	OrderService_CreateOrders_FullMethodName = "/models.OrderService/CreateOrders"
+	OrderService_OrderByName_FullMethodName  = "/models.OrderService/OrderByName"
 )
 
 // OrderServiceClient is the client API for OrderService service.
@@ -31,7 +31,7 @@ const (
 // OrderService is
 type OrderServiceClient interface {
 	GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error)
-	CreateOrder(ctx context.Context, in *OrderAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error)
+	CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error)
 	OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error)
 }
 
@@ -53,10 +53,10 @@ func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderAdminEmpty,
 	return out, nil
 }
 
-func (c *orderServiceClient) CreateOrder(ctx context.Context, in *OrderAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error) {
+func (c *orderServiceClient) CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrderAdminEmpty)
-	err := c.cc.Invoke(ctx, OrderService_CreateOrder_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OrderService_CreateOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func (c *orderServiceClient) OrderByName(ctx context.Context, in *OrderAdminGett
 // OrderService is
 type OrderServiceServer interface {
 	GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error)
-	CreateOrder(context.Context, *OrderAdmin) (*OrderAdminEmpty, error)
+	CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error)
 	OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
@@ -95,8 +95,8 @@ type UnimplementedOrderServiceServer struct{}
 func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
 }
-func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *OrderAdmin) (*OrderAdminEmpty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
+func (UnimplementedOrderServiceServer) CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrders not implemented")
 }
 func (UnimplementedOrderServiceServer) OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderByName not implemented")
@@ -140,20 +140,20 @@ func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderAdmin)
+func _OrderService_CreateOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrdersAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).CreateOrder(ctx, in)
+		return srv.(OrderServiceServer).CreateOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrderService_CreateOrder_FullMethodName,
+		FullMethod: OrderService_CreateOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*OrderAdmin))
+		return srv.(OrderServiceServer).CreateOrders(ctx, req.(*OrdersAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -188,8 +188,8 @@ var OrderService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OrderService_GetOrders_Handler,
 		},
 		{
-			MethodName: "CreateOrder",
-			Handler:    _OrderService_CreateOrder_Handler,
+			MethodName: "CreateOrders",
+			Handler:    _OrderService_CreateOrders_Handler,
 		},
 		{
 			MethodName: "OrderByName",

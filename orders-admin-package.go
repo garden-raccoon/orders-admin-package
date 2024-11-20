@@ -26,7 +26,7 @@ type IOrderAdminPkgAPI interface {
 
 	OrderByName(name string) (*models.OrderAdmin, error)
 
-	CreateOrder(s *models.OrderAdmin) error
+	CreateOrders(s []*models.OrderAdmin) error
 	// Close GRPC Api connection
 	Close() error
 }
@@ -68,45 +68,17 @@ func (api *Api) GetOrders() ([]*models.OrderAdmin, error) {
 
 	orders := models.OrdersFromProto(resp)
 
-	if Debug {
-		fmt.Println(orders)
-	}
 	return orders, nil
 }
-func (api *Api) CreateOrder(s *models.OrderAdmin) (err error) {
+
+func (api *Api) CreateOrders(s []*models.OrderAdmin) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
+	orders := models.OrdersToProto(s)
 
-	var order = &proto.OrderAdmin{
-
-		Uuid:     s.Uuid.Bytes(),
-		Name:     s.Name,
-		Price:    float32(s.Price),
-		Quantity: int32(s.Quantity),
-		Day:      s.Day,
-		MealType: s.MealType,
-	}
-	// DEBUG Info
-	if Debug {
-		fmt.Println("order is")
-		fmt.Println(order)
-
-		if order == nil {
-			fmt.Println("order is nil")
-		} else {
-			fmt.Println("order is not nil")
-		}
-		if api.OrderServiceClient == nil {
-			fmt.Println("OrderServiceClient is nil")
-		} else {
-			fmt.Println("OrderServiceClient is not nil")
-		}
-	}
-	//--- **** ---///
-
-	_, err = api.OrderServiceClient.CreateOrder(ctx, order)
+	_, err = api.OrderServiceClient.CreateOrders(ctx, orders)
 	if err != nil {
-		return fmt.Errorf("create order api request: %w", err)
+		return fmt.Errorf("create orders api request: %w", err)
 	}
 	return nil
 }
