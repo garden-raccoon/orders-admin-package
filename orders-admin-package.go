@@ -37,7 +37,7 @@ type Api struct {
 	addr    string
 	timeout time.Duration
 	*grpc.ClientConn
-	proto.OrderServiceClient
+	proto.OrderAdminServiceClient
 }
 
 // New create new Battles Api instance
@@ -48,7 +48,7 @@ func New(addr string) (IOrderAdminPkgAPI, error) {
 		return nil, fmt.Errorf("create Battles Api:  %w", err)
 	}
 
-	api.OrderServiceClient = proto.NewOrderServiceClient(api.ClientConn)
+	api.OrderAdminServiceClient = proto.NewOrderAdminServiceClient(api.ClientConn)
 	return api, nil
 }
 func (api *Api) AllOrders(pb *proto.OrdersAdmin) ([]*models.OrderAdmin, error) {
@@ -61,7 +61,7 @@ func (api *Api) GetOrders() ([]*models.OrderAdmin, error) {
 
 	var resp *proto.OrdersAdmin
 	empty := new(proto.OrderAdminEmpty)
-	resp, err := api.OrderServiceClient.GetOrders(ctx, empty)
+	resp, err := api.OrderAdminServiceClient.GetOrders(ctx, empty)
 	if err != nil {
 		return nil, fmt.Errorf("GetOrders api request: %w", err)
 	}
@@ -76,7 +76,7 @@ func (api *Api) CreateOrders(s []*models.OrderAdmin) (err error) {
 	defer cancel()
 	orders := models.OrdersToProto(s)
 
-	_, err = api.OrderServiceClient.CreateOrders(ctx, orders)
+	_, err = api.OrderAdminServiceClient.CreateOrders(ctx, orders)
 	if err != nil {
 		return fmt.Errorf("create orders api request: %w", err)
 	}
@@ -110,7 +110,7 @@ func (api *Api) getOrder(getter *proto.OrderAdminGetter) (*models.OrderAdmin, er
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 
-	resp, err := api.OrderServiceClient.OrderByName(ctx, getter)
+	resp, err := api.OrderAdminServiceClient.OrderByName(ctx, getter)
 	if err != nil {
 		return nil, fmt.Errorf("get battle api request: %w", err)
 	}

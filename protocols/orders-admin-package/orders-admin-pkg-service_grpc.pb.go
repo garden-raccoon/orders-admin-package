@@ -19,181 +19,181 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OrderService_GetOrders_FullMethodName    = "/models.OrderService/GetOrders"
-	OrderService_CreateOrders_FullMethodName = "/models.OrderService/CreateOrders"
-	OrderService_OrderByName_FullMethodName  = "/models.OrderService/OrderByName"
+	OrderAdminService_GetOrders_FullMethodName    = "/models.OrderAdminService/GetOrders"
+	OrderAdminService_CreateOrders_FullMethodName = "/models.OrderAdminService/CreateOrders"
+	OrderAdminService_OrderByName_FullMethodName  = "/models.OrderAdminService/OrderByName"
 )
 
-// OrderServiceClient is the client API for OrderService service.
+// OrderAdminServiceClient is the client API for OrderAdminService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // OrderService is
-type OrderServiceClient interface {
+type OrderAdminServiceClient interface {
 	GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error)
 	CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error)
 	OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error)
 }
 
-type orderServiceClient struct {
+type orderAdminServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOrderServiceClient(cc grpc.ClientConnInterface) OrderServiceClient {
-	return &orderServiceClient{cc}
+func NewOrderAdminServiceClient(cc grpc.ClientConnInterface) OrderAdminServiceClient {
+	return &orderAdminServiceClient{cc}
 }
 
-func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error) {
+func (c *orderAdminServiceClient) GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrdersAdmin)
-	err := c.cc.Invoke(ctx, OrderService_GetOrders_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OrderAdminService_GetOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *orderServiceClient) CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error) {
+func (c *orderAdminServiceClient) CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrderAdminEmpty)
-	err := c.cc.Invoke(ctx, OrderService_CreateOrders_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OrderAdminService_CreateOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *orderServiceClient) OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error) {
+func (c *orderAdminServiceClient) OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OrderAdmin)
-	err := c.cc.Invoke(ctx, OrderService_OrderByName_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, OrderAdminService_OrderByName_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OrderServiceServer is the server API for OrderService service.
-// All implementations must embed UnimplementedOrderServiceServer
+// OrderAdminServiceServer is the server API for OrderAdminService service.
+// All implementations must embed UnimplementedOrderAdminServiceServer
 // for forward compatibility.
 //
 // OrderService is
-type OrderServiceServer interface {
+type OrderAdminServiceServer interface {
 	GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error)
 	CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error)
 	OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error)
-	mustEmbedUnimplementedOrderServiceServer()
+	mustEmbedUnimplementedOrderAdminServiceServer()
 }
 
-// UnimplementedOrderServiceServer must be embedded to have
+// UnimplementedOrderAdminServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedOrderServiceServer struct{}
+type UnimplementedOrderAdminServiceServer struct{}
 
-func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error) {
+func (UnimplementedOrderAdminServiceServer) GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
 }
-func (UnimplementedOrderServiceServer) CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error) {
+func (UnimplementedOrderAdminServiceServer) CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrders not implemented")
 }
-func (UnimplementedOrderServiceServer) OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error) {
+func (UnimplementedOrderAdminServiceServer) OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderByName not implemented")
 }
-func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
-func (UnimplementedOrderServiceServer) testEmbeddedByValue()                      {}
+func (UnimplementedOrderAdminServiceServer) mustEmbedUnimplementedOrderAdminServiceServer() {}
+func (UnimplementedOrderAdminServiceServer) testEmbeddedByValue()                           {}
 
-// UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OrderServiceServer will
+// UnsafeOrderAdminServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrderAdminServiceServer will
 // result in compilation errors.
-type UnsafeOrderServiceServer interface {
-	mustEmbedUnimplementedOrderServiceServer()
+type UnsafeOrderAdminServiceServer interface {
+	mustEmbedUnimplementedOrderAdminServiceServer()
 }
 
-func RegisterOrderServiceServer(s grpc.ServiceRegistrar, srv OrderServiceServer) {
-	// If the following call pancis, it indicates UnimplementedOrderServiceServer was
+func RegisterOrderAdminServiceServer(s grpc.ServiceRegistrar, srv OrderAdminServiceServer) {
+	// If the following call pancis, it indicates UnimplementedOrderAdminServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&OrderService_ServiceDesc, srv)
+	s.RegisterService(&OrderAdminService_ServiceDesc, srv)
 }
 
-func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OrderAdminService_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OrderAdminEmpty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).GetOrders(ctx, in)
+		return srv.(OrderAdminServiceServer).GetOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrderService_GetOrders_FullMethodName,
+		FullMethod: OrderAdminService_GetOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).GetOrders(ctx, req.(*OrderAdminEmpty))
+		return srv.(OrderAdminServiceServer).GetOrders(ctx, req.(*OrderAdminEmpty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_CreateOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OrderAdminService_CreateOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OrdersAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).CreateOrders(ctx, in)
+		return srv.(OrderAdminServiceServer).CreateOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrderService_CreateOrders_FullMethodName,
+		FullMethod: OrderAdminService_CreateOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CreateOrders(ctx, req.(*OrdersAdmin))
+		return srv.(OrderAdminServiceServer).CreateOrders(ctx, req.(*OrdersAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OrderService_OrderByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OrderAdminService_OrderByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OrderAdminGetter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServiceServer).OrderByName(ctx, in)
+		return srv.(OrderAdminServiceServer).OrderByName(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: OrderService_OrderByName_FullMethodName,
+		FullMethod: OrderAdminService_OrderByName_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).OrderByName(ctx, req.(*OrderAdminGetter))
+		return srv.(OrderAdminServiceServer).OrderByName(ctx, req.(*OrderAdminGetter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
+// OrderAdminService_ServiceDesc is the grpc.ServiceDesc for OrderAdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var OrderService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "models.OrderService",
-	HandlerType: (*OrderServiceServer)(nil),
+var OrderAdminService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "models.OrderAdminService",
+	HandlerType: (*OrderAdminServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetOrders",
-			Handler:    _OrderService_GetOrders_Handler,
+			Handler:    _OrderAdminService_GetOrders_Handler,
 		},
 		{
 			MethodName: "CreateOrders",
-			Handler:    _OrderService_CreateOrders_Handler,
+			Handler:    _OrderAdminService_CreateOrders_Handler,
 		},
 		{
 			MethodName: "OrderByName",
-			Handler:    _OrderService_OrderByName_Handler,
+			Handler:    _OrderAdminService_OrderByName_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
