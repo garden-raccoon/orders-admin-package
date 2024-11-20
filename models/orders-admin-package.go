@@ -11,7 +11,6 @@ type OrderAdmin struct {
 	Name     string    `json:"name"`
 	Price    float64   `json:"price"`
 	Uuid     uuid.UUID `json:"uuid"`
-	Quantity int       `json:"quantity"`
 	Day      string    `json:"day"`
 	MealType string    `json:"mealType"`
 }
@@ -21,7 +20,6 @@ func NewOrder(name, day, mealType string, uuid uuid.UUID, price float64, quantit
 		Name:     name,
 		Price:    price,
 		Uuid:     uuid,
-		Quantity: quantity,
 		Day:      day,
 		MealType: mealType,
 	}
@@ -35,7 +33,6 @@ func (o OrderAdmin) Proto() *proto.OrderAdmin {
 		Name:     o.Name,
 		MealType: o.MealType,
 		Price:    float32(o.Price),
-		Quantity: int32(o.Quantity),
 		Day:      o.Day,
 	}
 	return order
@@ -46,7 +43,6 @@ func OrderAdminFromProto(pb *proto.OrderAdmin) *OrderAdmin {
 	order := &OrderAdmin{
 		Name:     pb.Name,
 		Price:    float64(pb.Price),
-		Quantity: int(pb.Quantity),
 		Day:      pb.Day,
 		MealType: pb.MealType,
 	}

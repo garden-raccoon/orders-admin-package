@@ -9,8 +9,7 @@ message OrderAdmin {
     string          name        = 2;
     string          mealType = 3;
     float           price       = 4;
-    int32           quantity = 5;
-    string          day = 6;
+    string          day = 5;
 }
 
 message OrdersAdmin{
