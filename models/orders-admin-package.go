@@ -54,11 +54,13 @@ func OrderAdminFromProto(pb *proto.OrderAdmin) *OrderAdmin {
 }
 
 // OrdersToProto is
-func OrdersToProto(orders []*OrderAdmin) (pb *proto.OrdersAdmin) {
+func OrdersToProto(orders []*OrderAdmin) *proto.OrdersAdmin {
+	pb := &proto.OrdersAdmin{}
+
 	for _, b := range orders {
 		pb.OrdersAdmin = append(pb.OrdersAdmin, b.Proto())
 	}
-	return
+	return pb
 }
 
 // OrdersFromProto is
