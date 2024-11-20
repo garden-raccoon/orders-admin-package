@@ -28,7 +28,7 @@ func NewOrder(name, day, mealType string, uuid uuid.UUID, price float64, quantit
 }
 
 // Proto is
-func Proto(o *OrderAdmin) *proto.OrderAdmin {
+func (o OrderAdmin) Proto() *proto.OrderAdmin {
 
 	order := &proto.OrderAdmin{
 		Uuid:     o.Uuid.Bytes(),
@@ -56,7 +56,7 @@ func OrderAdminFromProto(pb *proto.OrderAdmin) *OrderAdmin {
 // OrdersToProto is
 func OrdersToProto(orders []*OrderAdmin) (pb *proto.OrdersAdmin) {
 	for _, b := range orders {
-		pb.OrdersAdmin = append(pb.OrdersAdmin, Proto(b))
+		pb.OrdersAdmin = append(pb.OrdersAdmin, b.Proto())
 	}
 	return
 }
