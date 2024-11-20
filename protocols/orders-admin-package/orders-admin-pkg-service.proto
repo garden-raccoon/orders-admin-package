@@ -7,16 +7,16 @@ import "orders-admin-pkg-models.proto";
 
 // OrderService is
 service OrderService {
-    rpc GetOrders(OrderEmpty) returns(models.Orders);
-    rpc CreateOrder(models.Order) returns(OrderEmpty);
-    rpc OrderByName(OrderGetter) returns(models.Order);
+    rpc GetOrders(OrderAdminEmpty) returns(models.OrdersAdmin);
+    rpc CreateOrder(models.OrderAdmin) returns(OrderAdminEmpty);
+    rpc OrderByName(OrderAdminGetter) returns(models.OrderAdmin);
 
 
 }
 
-message OrderEmpty {}
+message OrderAdminEmpty {}
 
-message OrderGetter {
+message OrderAdminGetter {
     oneof getter {
         bytes   uuid    = 1;
         string  code    = 2;

@@ -3,68 +3,68 @@ package models
 import (
 	"github.com/gofrs/uuid"
 
-	proto "github.com/garden-raccoon/orders-admin-package/protocols/orders"
+	proto "github.com/garden-raccoon/orders-admin-package/protocols/orders-admin-package"
 )
 
 // Order is
-type Order struct {
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Price       float64   `json:"price"`
-	Uuid        uuid.UUID `json:"uuid"`
-	UserUuid    uuid.UUID `json:"user-uuid"`
-	Contain     []string  `json:"contain"`
-	Quantity    int       `json:"quantity"`
-	Day         string    `json:"day"`
+type OrderAdmin struct {
+	Name     string    `json:"name"`
+	Price    float64   `json:"price"`
+	Uuid     uuid.UUID `json:"uuid"`
+	Quantity int       `json:"quantity"`
+	Day      string    `json:"day"`
+	MealType string    `json:"mealType"`
 }
 
-func NewOrder(title, description, day string, price float64, quantity int, uuid, userUUID uuid.UUID, contain []string) *Order {
-	return &Order{
-		Title:       title,
-		Description: description,
-		Price:       price,
-		Uuid:        uuid,
-		UserUuid:    userUUID,
-		Contain:     contain,
-		Quantity:    quantity,
-		Day:         day,
+func NewOrder(name, day, mealType string, uuid uuid.UUID, price float64, quantity int) *OrderAdmin {
+	return &OrderAdmin{
+		Name:     name,
+		Price:    price,
+		Uuid:     uuid,
+		Quantity: quantity,
+		Day:      day,
+		MealType: mealType,
 	}
 }
 
 // Proto is
-func (o Order) Proto() *proto.Order {
-	order := &proto.Order{
-		Uuid:        o.Uuid.Bytes(),
-		Description: o.Description,
-		Contain:     o.Contain,
-		Price:       float32(o.Price),
-		Title:       o.Title,
+func (o OrderAdmin) Proto() *proto.OrderAdmin {
+
+	order := &proto.OrderAdmin{
+		Uuid:     o.Uuid.Bytes(),
+		Name:     o.Name,
+		MealType: o.MealType,
+		Price:    float32(o.Price),
+		Quantity: int32(o.Quantity),
+		Day:      o.Day,
 	}
 	return order
 }
 
-func OrderFromProto(pb *proto.Order) *Order {
-	order := &Order{
-		Title:       pb.Title,
-		Description: pb.Description,
-		Price:       float64(pb.Price),
-		Contain:     pb.Contain,
+func OrderAdminFromProto(pb *proto.OrderAdmin) *OrderAdmin {
+
+	order := &OrderAdmin{
+		Name:     pb.Name,
+		Price:    float64(pb.Price),
+		Quantity: int(pb.Quantity),
+		Day:      pb.Day,
+		MealType: pb.MealType,
 	}
 	return order
 }
 
 // OrdersToProto is
-func OrdersToProto(orders []*Order) (pb *proto.Orders) {
+func OrdersToProto(orders []*OrderAdmin) (pb *proto.OrdersAdmin) {
 	for _, b := range orders {
-		pb.Orders = append(pb.Orders, b.Proto())
+		pb.OrdersAdmin = append(pb.OrdersAdmin, b.Proto())
 	}
 	return
 }
 
 // OrdersFromProto is
-func OrdersFromProto(pb *proto.Orders) (shops []*Order) {
-	for _, b := range pb.Orders {
-		shops = append(shops, OrderFromProto(b))
+func OrdersFromProto(pb *proto.OrdersAdmin) (orders []*OrderAdmin) {
+	for _, b := range pb.OrdersAdmin {
+		orders = append(orders, OrderAdminFromProto(b))
 	}
 	return
 }
