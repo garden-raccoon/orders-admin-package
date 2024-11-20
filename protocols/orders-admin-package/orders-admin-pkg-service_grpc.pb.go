@@ -30,9 +30,9 @@ const (
 //
 // OrderService is
 type OrderServiceClient interface {
-	GetOrders(ctx context.Context, in *OrderEmpty, opts ...grpc.CallOption) (*Orders, error)
-	CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderEmpty, error)
-	OrderByName(ctx context.Context, in *OrderGetter, opts ...grpc.CallOption) (*Order, error)
+	GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error)
+	CreateOrder(ctx context.Context, in *OrderAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error)
+	OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error)
 }
 
 type orderServiceClient struct {
@@ -43,9 +43,9 @@ func NewOrderServiceClient(cc grpc.ClientConnInterface) OrderServiceClient {
 	return &orderServiceClient{cc}
 }
 
-func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderEmpty, opts ...grpc.CallOption) (*Orders, error) {
+func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Orders)
+	out := new(OrdersAdmin)
 	err := c.cc.Invoke(ctx, OrderService_GetOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -53,9 +53,9 @@ func (c *orderServiceClient) GetOrders(ctx context.Context, in *OrderEmpty, opts
 	return out, nil
 }
 
-func (c *orderServiceClient) CreateOrder(ctx context.Context, in *Order, opts ...grpc.CallOption) (*OrderEmpty, error) {
+func (c *orderServiceClient) CreateOrder(ctx context.Context, in *OrderAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OrderEmpty)
+	out := new(OrderAdminEmpty)
 	err := c.cc.Invoke(ctx, OrderService_CreateOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -63,9 +63,9 @@ func (c *orderServiceClient) CreateOrder(ctx context.Context, in *Order, opts ..
 	return out, nil
 }
 
-func (c *orderServiceClient) OrderByName(ctx context.Context, in *OrderGetter, opts ...grpc.CallOption) (*Order, error) {
+func (c *orderServiceClient) OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Order)
+	out := new(OrderAdmin)
 	err := c.cc.Invoke(ctx, OrderService_OrderByName_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -79,9 +79,9 @@ func (c *orderServiceClient) OrderByName(ctx context.Context, in *OrderGetter, o
 //
 // OrderService is
 type OrderServiceServer interface {
-	GetOrders(context.Context, *OrderEmpty) (*Orders, error)
-	CreateOrder(context.Context, *Order) (*OrderEmpty, error)
-	OrderByName(context.Context, *OrderGetter) (*Order, error)
+	GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error)
+	CreateOrder(context.Context, *OrderAdmin) (*OrderAdminEmpty, error)
+	OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error)
 	mustEmbedUnimplementedOrderServiceServer()
 }
 
@@ -92,13 +92,13 @@ type OrderServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrderServiceServer struct{}
 
-func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderEmpty) (*Orders, error) {
+func (UnimplementedOrderServiceServer) GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
 }
-func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *Order) (*OrderEmpty, error) {
+func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *OrderAdmin) (*OrderAdminEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
-func (UnimplementedOrderServiceServer) OrderByName(context.Context, *OrderGetter) (*Order, error) {
+func (UnimplementedOrderServiceServer) OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderByName not implemented")
 }
 func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
@@ -123,7 +123,7 @@ func RegisterOrderServiceServer(s grpc.ServiceRegistrar, srv OrderServiceServer)
 }
 
 func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderEmpty)
+	in := new(OrderAdminEmpty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -135,13 +135,13 @@ func _OrderService_GetOrders_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: OrderService_GetOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).GetOrders(ctx, req.(*OrderEmpty))
+		return srv.(OrderServiceServer).GetOrders(ctx, req.(*OrderAdminEmpty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Order)
+	in := new(OrderAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -153,13 +153,13 @@ func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: OrderService_CreateOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*Order))
+		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*OrderAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _OrderService_OrderByName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OrderGetter)
+	in := new(OrderAdminGetter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func _OrderService_OrderByName_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: OrderService_OrderByName_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServiceServer).OrderByName(ctx, req.(*OrderGetter))
+		return srv.(OrderServiceServer).OrderByName(ctx, req.(*OrderAdminGetter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
