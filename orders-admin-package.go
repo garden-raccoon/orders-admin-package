@@ -27,6 +27,9 @@ type IOrderAdminPkgAPI interface {
 	OrderByName(name string) (*models.OrderAdmin, error)
 
 	CreateOrders(s []*models.OrderAdmin) error
+
+	CreateMeals(s []*models.MealsDb) error
+
 	// Close GRPC Api connection
 	Close() error
 }
@@ -38,6 +41,7 @@ type Api struct {
 	timeout time.Duration
 	*grpc.ClientConn
 	proto.OrderAdminServiceClient
+	proto.MealsDbServiceClient
 }
 
 // New create new Battles Api instance
@@ -79,6 +83,18 @@ func (api *Api) CreateOrders(s []*models.OrderAdmin) (err error) {
 	_, err = api.OrderAdminServiceClient.CreateOrders(ctx, orders)
 	if err != nil {
 		return fmt.Errorf("create orders api request: %w", err)
+	}
+	return nil
+}
+
+func (api *Api) CreateMeals(s []*models.MealsDb) (err error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	meals := models.MealsToProto(s)
+
+	_, err = api.MealsDbServiceClient.CreateMeals(ctx, meals)
+	if err != nil {
+		return fmt.Errorf("create meals api request: %w", err)
 	}
 	return nil
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package models;
+
+option go_package = "protocols/orders-admin-package";
+
+import "meals-db-models.proto";
+
+service MealsDbService {
+  rpc CreateMeals(models.MealsDb) returns(MealsDbEmpty);
+}
+
+message MealsDbEmpty {}

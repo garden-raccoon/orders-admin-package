@@ -10,8 +10,6 @@ service OrderAdminService {
     rpc GetOrders(OrderAdminEmpty) returns(models.OrdersAdmin);
     rpc CreateOrders(models.OrdersAdmin) returns(OrderAdminEmpty);
     rpc OrderByName(OrderAdminGetter) returns(models.OrderAdmin);
-
-
 }
 
 message OrderAdminEmpty {}
