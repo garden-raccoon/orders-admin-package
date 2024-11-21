@@ -22,6 +22,8 @@ const (
 	OrderAdminService_GetOrders_FullMethodName    = "/models.OrderAdminService/GetOrders"
 	OrderAdminService_CreateOrders_FullMethodName = "/models.OrderAdminService/CreateOrders"
 	OrderAdminService_OrderByName_FullMethodName  = "/models.OrderAdminService/OrderByName"
+	OrderAdminService_CreateMeals_FullMethodName  = "/models.OrderAdminService/CreateMeals"
+	OrderAdminService_GetMeals_FullMethodName     = "/models.OrderAdminService/GetMeals"
 )
 
 // OrderAdminServiceClient is the client API for OrderAdminService service.
@@ -33,6 +35,8 @@ type OrderAdminServiceClient interface {
 	GetOrders(ctx context.Context, in *OrderAdminEmpty, opts ...grpc.CallOption) (*OrdersAdmin, error)
 	CreateOrders(ctx context.Context, in *OrdersAdmin, opts ...grpc.CallOption) (*OrderAdminEmpty, error)
 	OrderByName(ctx context.Context, in *OrderAdminGetter, opts ...grpc.CallOption) (*OrderAdmin, error)
+	CreateMeals(ctx context.Context, in *MealsDb, opts ...grpc.CallOption) (*MealsDbEmpty, error)
+	GetMeals(ctx context.Context, in *MealsDbEmpty, opts ...grpc.CallOption) (*MealsDb, error)
 }
 
 type orderAdminServiceClient struct {
@@ -73,6 +77,26 @@ func (c *orderAdminServiceClient) OrderByName(ctx context.Context, in *OrderAdmi
 	return out, nil
 }
 
+func (c *orderAdminServiceClient) CreateMeals(ctx context.Context, in *MealsDb, opts ...grpc.CallOption) (*MealsDbEmpty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MealsDbEmpty)
+	err := c.cc.Invoke(ctx, OrderAdminService_CreateMeals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderAdminServiceClient) GetMeals(ctx context.Context, in *MealsDbEmpty, opts ...grpc.CallOption) (*MealsDb, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MealsDb)
+	err := c.cc.Invoke(ctx, OrderAdminService_GetMeals_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderAdminServiceServer is the server API for OrderAdminService service.
 // All implementations must embed UnimplementedOrderAdminServiceServer
 // for forward compatibility.
@@ -82,6 +106,8 @@ type OrderAdminServiceServer interface {
 	GetOrders(context.Context, *OrderAdminEmpty) (*OrdersAdmin, error)
 	CreateOrders(context.Context, *OrdersAdmin) (*OrderAdminEmpty, error)
 	OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error)
+	CreateMeals(context.Context, *MealsDb) (*MealsDbEmpty, error)
+	GetMeals(context.Context, *MealsDbEmpty) (*MealsDb, error)
 	mustEmbedUnimplementedOrderAdminServiceServer()
 }
 
@@ -100,6 +126,12 @@ func (UnimplementedOrderAdminServiceServer) CreateOrders(context.Context, *Order
 }
 func (UnimplementedOrderAdminServiceServer) OrderByName(context.Context, *OrderAdminGetter) (*OrderAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderByName not implemented")
+}
+func (UnimplementedOrderAdminServiceServer) CreateMeals(context.Context, *MealsDb) (*MealsDbEmpty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMeals not implemented")
+}
+func (UnimplementedOrderAdminServiceServer) GetMeals(context.Context, *MealsDbEmpty) (*MealsDb, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMeals not implemented")
 }
 func (UnimplementedOrderAdminServiceServer) mustEmbedUnimplementedOrderAdminServiceServer() {}
 func (UnimplementedOrderAdminServiceServer) testEmbeddedByValue()                           {}
@@ -176,6 +208,42 @@ func _OrderAdminService_OrderByName_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrderAdminService_CreateMeals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MealsDb)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderAdminServiceServer).CreateMeals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderAdminService_CreateMeals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderAdminServiceServer).CreateMeals(ctx, req.(*MealsDb))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OrderAdminService_GetMeals_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MealsDbEmpty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderAdminServiceServer).GetMeals(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrderAdminService_GetMeals_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderAdminServiceServer).GetMeals(ctx, req.(*MealsDbEmpty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrderAdminService_ServiceDesc is the grpc.ServiceDesc for OrderAdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -194,6 +262,14 @@ var OrderAdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OrderByName",
 			Handler:    _OrderAdminService_OrderByName_Handler,
+		},
+		{
+			MethodName: "CreateMeals",
+			Handler:    _OrderAdminService_CreateMeals_Handler,
+		},
+		{
+			MethodName: "GetMeals",
+			Handler:    _OrderAdminService_GetMeals_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

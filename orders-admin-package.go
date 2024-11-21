@@ -40,7 +40,6 @@ type Api struct {
 	timeout time.Duration
 	*grpc.ClientConn
 	proto.OrderAdminServiceClient
-	proto.MealsDbServiceClient
 }
 
 // New create new Battles Api instance
@@ -80,7 +79,7 @@ func (api *Api) GetMeals() ([]*models.MealsDb, error) {
 
 	var resp *proto.MealsDb
 	empty := new(proto.MealsDbEmpty)
-	resp, err := api.MealsDbServiceClient.GetMeals(ctx, empty)
+	resp, err := api.OrderAdminServiceClient.GetMeals(ctx, empty)
 	if err != nil {
 		return nil, fmt.Errorf("GetOrders api request: %w", err)
 	}
@@ -106,7 +105,7 @@ func (api *Api) CreateMeals(s []*models.MealsDb) (err error) {
 	defer cancel()
 	meals := models.MealsToProto(s)
 
-	_, err = api.MealsDbServiceClient.CreateMeals(ctx, meals)
+	_, err = api.OrderAdminServiceClient.CreateMeals(ctx, meals)
 	if err != nil {
 		return fmt.Errorf("create meals api request: %w", err)
 	}
