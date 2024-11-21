@@ -23,12 +23,11 @@ var Debug = true
 type IOrderAdminPkgAPI interface {
 	GetOrders() ([]*models.OrderAdmin, error)
 	AllOrders(pb *proto.OrdersAdmin) ([]*models.OrderAdmin, error)
-
 	OrderByName(name string) (*models.OrderAdmin, error)
-
 	CreateOrders(s []*models.OrderAdmin) error
 
 	CreateMeals(s []*models.MealsDb) error
+	GetMeals() ([]*models.MealsDb, error)
 
 	// Close GRPC Api connection
 	Close() error
@@ -59,6 +58,7 @@ func (api *Api) AllOrders(pb *proto.OrdersAdmin) ([]*models.OrderAdmin, error) {
 	ppp := models.OrdersFromProto(pb)
 	return ppp, nil
 }
+
 func (api *Api) GetOrders() ([]*models.OrderAdmin, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
@@ -74,7 +74,21 @@ func (api *Api) GetOrders() ([]*models.OrderAdmin, error) {
 
 	return orders, nil
 }
+func (api *Api) GetMeals() ([]*models.MealsDb, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
 
+	var resp *proto.MealsDb
+	empty := new(proto.MealsDbEmpty)
+	resp, err := api.MealsDbServiceClient.GetMeals(ctx, empty)
+	if err != nil {
+		return nil, fmt.Errorf("GetOrders api request: %w", err)
+	}
+
+	meals := models.MealsFromProto(resp)
+
+	return meals, nil
+}
 func (api *Api) CreateOrders(s []*models.OrderAdmin) (err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()

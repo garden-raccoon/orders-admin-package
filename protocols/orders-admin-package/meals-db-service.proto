@@ -7,6 +7,8 @@ import "meals-db-models.proto";
 
 service MealsDbService {
   rpc CreateMeals(models.MealsDb) returns(MealsDbEmpty);
+  rpc GetMeals(MealsDbEmpty) returns(models.MealsDb);
+
 }
 
 message MealsDbEmpty {}
