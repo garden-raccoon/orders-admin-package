@@ -3,6 +3,7 @@ package orders
 import (
 	"context"
 	"fmt"
+	"github.com/gofrs/uuid"
 	"time"
 
 	"google.golang.org/grpc"
@@ -22,10 +23,9 @@ var Debug = true
 // IOrderAdminPkgAPI is
 type IOrderAdminPkgAPI interface {
 	GetOrders() ([]*models.OrderAdmin, error)
-	AllOrders(pb *proto.OrdersAdmin) ([]*models.OrderAdmin, error)
 	OrderByName(name string) (*models.OrderAdmin, error)
 	CreateOrders(s []*models.OrderAdmin) error
-
+	DeleteOrder(name, day string) (*models.OrderAdmin, error)
 	CreateMeals(s []*models.MealsDb) error
 	GetMeals() ([]*models.MealsDb, error)
 
@@ -53,9 +53,19 @@ func New(addr string) (IOrderAdminPkgAPI, error) {
 	api.OrderAdminServiceClient = proto.NewOrderAdminServiceClient(api.ClientConn)
 	return api, nil
 }
-func (api *Api) AllOrders(pb *proto.OrdersAdmin) ([]*models.OrderAdmin, error) {
-	ppp := models.OrdersFromProto(pb)
-	return ppp, nil
+func (api *Api) DeleteOrder(uuid uuid.UUID, day, name string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
+	defer cancel()
+	req := &proto.OrderDeleteReq{
+		Uuid: uuid.Bytes(),
+		Day:  day,
+		Name: name,
+	}
+	_, err := api.OrderAdminServiceClient.DeleteOrder(ctx, req)
+	if err != nil {
+		return fmt.Errorf("DeleteOrder api request: %w", err)
+	}
+	return nil
 }
 
 func (api *Api) GetOrders() ([]*models.OrderAdmin, error) {

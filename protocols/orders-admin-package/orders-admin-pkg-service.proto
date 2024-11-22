@@ -10,6 +10,7 @@ service OrderAdminService {
     rpc GetOrders(OrderAdminEmpty) returns(models.OrdersAdmin);
     rpc CreateOrders(models.OrdersAdmin) returns(OrderAdminEmpty);
     rpc OrderByName(OrderAdminGetter) returns(models.OrderAdmin);
+    rpc DeleteOrder(OrderDeleteReq) returns(OrderAdminEmpty);
     rpc CreateMeals(models.MealsDb) returns(MealsDbEmpty);
     rpc GetMeals(MealsDbEmpty) returns(models.MealsDb);
 }
@@ -18,6 +19,11 @@ service OrderAdminService {
 message MealsDbEmpty {}
 message OrderAdminEmpty {}
 
+message OrderDeleteReq {
+    bytes uuid = 1;
+    string name = 2;
+    string day = 3;
+}
 message OrderAdminGetter {
     oneof getter {
         bytes   uuid    = 1;
