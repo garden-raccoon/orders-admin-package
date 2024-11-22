@@ -25,7 +25,7 @@ type IOrderAdminPkgAPI interface {
 	GetOrders() ([]*models.OrderAdmin, error)
 	OrderByName(name string) (*models.OrderAdmin, error)
 	CreateOrders(s []*models.OrderAdmin) error
-	DeleteOrder(name, day string) (*models.OrderAdmin, error)
+	DeleteOrder(uuid uuid.UUID, day, name string) error
 	CreateMeals(s []*models.MealsDb) error
 	GetMeals() ([]*models.MealsDb, error)
 
