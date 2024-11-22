@@ -21,8 +21,6 @@ message OrderAdminEmpty {}
 
 message OrderDeleteReq {
     bytes uuid = 1;
-    string name = 2;
-    string day = 3;
 }
 message OrderAdminGetter {
     oneof getter {

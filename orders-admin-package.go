@@ -25,7 +25,7 @@ type IOrderAdminPkgAPI interface {
 	GetOrders() ([]*models.OrderAdmin, error)
 	OrderByName(name string) (*models.OrderAdmin, error)
 	CreateOrders(s []*models.OrderAdmin) error
-	DeleteOrder(uuid uuid.UUID, day, name string) error
+	DeleteOrder(uuid uuid.UUID) error
 	CreateMeals(s []*models.MealsDb) error
 	GetMeals() ([]*models.MealsDb, error)
 
@@ -53,13 +53,11 @@ func New(addr string) (IOrderAdminPkgAPI, error) {
 	api.OrderAdminServiceClient = proto.NewOrderAdminServiceClient(api.ClientConn)
 	return api, nil
 }
-func (api *Api) DeleteOrder(uuid uuid.UUID, day, name string) error {
+func (api *Api) DeleteOrder(uuid uuid.UUID) error {
 	ctx, cancel := context.WithTimeout(context.Background(), api.timeout)
 	defer cancel()
 	req := &proto.OrderDeleteReq{
 		Uuid: uuid.Bytes(),
-		Day:  day,
-		Name: name,
 	}
 	_, err := api.OrderAdminServiceClient.DeleteOrder(ctx, req)
 	if err != nil {
