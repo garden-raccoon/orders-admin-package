@@ -40,6 +40,7 @@ func MealDbFromProto(pb *proto.MealDb) *MealsDb {
 		Name:        pb.Name,
 		Price:       float64(pb.Price),
 		Description: pb.Description,
+		Uuid:        uuid.FromBytesOrNil(pb.Uuid),
 	}
 	return order
 }

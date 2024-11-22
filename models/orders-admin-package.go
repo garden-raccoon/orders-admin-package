@@ -45,6 +45,7 @@ func OrderAdminFromProto(pb *proto.OrderAdmin) *OrderAdmin {
 		Price:    float64(pb.Price),
 		Day:      pb.Day,
 		MealType: pb.MealType,
+		Uuid:     uuid.FromBytesOrNil(pb.Uuid),
 	}
 	return order
 }
