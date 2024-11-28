@@ -37,6 +37,8 @@ func (mdb MealsDb) Proto() *proto.MealDb {
 		Description: mdb.Description,
 		Price:       float32(mdb.Price),
 	}
+	dummy2 := &Dummy{}
+	mdb.Dummy = dummy2
 	dummy := &proto.Dummy{Dummies: mdb.Dummy.Dummies}
 	order.Dummy = dummy
 	return order
@@ -50,6 +52,8 @@ func MealDbFromProto(pb *proto.MealDb) *MealsDb {
 		Description: pb.Description,
 		Uuid:        uuid.FromBytesOrNil(pb.Uuid),
 	}
+	dummy2 := &proto.Dummy{}
+	pb.Dummy = dummy2
 	dummy := &Dummy{Dummies: pb.Dummy.Dummies}
 	order.Dummy = dummy
 	return order
