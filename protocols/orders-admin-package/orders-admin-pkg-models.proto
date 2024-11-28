@@ -25,6 +25,9 @@ message MealDb {
 }
 message Dummy{
     repeated string dummies = 1;
+    repeated string trumpies = 2;
+    repeated string puppies = 3;
+
 }
 
 message MealsDb{
