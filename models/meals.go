@@ -38,8 +38,7 @@ func (mdb MealsDb) Proto() *proto.MealDb {
 		Description: mdb.Description,
 		Price:       float32(mdb.Price),
 	}
-	dummy2 := &Dummy{}
-	mdb.Dummy = dummy2
+	fmt.Println(" mdb.Dummy are", mdb.Dummy)
 	dummy := &proto.Dummy{Dummies: mdb.Dummy.Dummies}
 	order.Dummy = dummy
 	return order
