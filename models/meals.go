@@ -11,15 +11,21 @@ type MealsDb struct {
 	Price       float64   `json:"price"`
 	Uuid        uuid.UUID `json:"uuid"`
 	Description string    `json:"description"`
+	Dummy       *Dummy    `json:"dummy"`
+}
+type Dummy struct {
+	Dummies []string
 }
 
-func NewMeals(name, description string, uuid uuid.UUID, price float64) *MealsDb {
-	return &MealsDb{
+func NewMeals(name, description string, uuid uuid.UUID, price float64, dummy Dummy) *MealsDb {
+	meals := &MealsDb{
 		Name:        name,
 		Price:       price,
 		Uuid:        uuid,
 		Description: description,
+		Dummy:       &dummy,
 	}
+	return meals
 }
 
 // Proto is
@@ -31,6 +37,8 @@ func (mdb MealsDb) Proto() *proto.MealDb {
 		Description: mdb.Description,
 		Price:       float32(mdb.Price),
 	}
+	dummy := &proto.Dummy{Dummies: mdb.Dummy.Dummies}
+	order.Dummy = dummy
 	return order
 }
 
@@ -42,6 +50,8 @@ func MealDbFromProto(pb *proto.MealDb) *MealsDb {
 		Description: pb.Description,
 		Uuid:        uuid.FromBytesOrNil(pb.Uuid),
 	}
+	dummy := &Dummy{Dummies: pb.Dummy.Dummies}
+	order.Dummy = dummy
 	return order
 }
 

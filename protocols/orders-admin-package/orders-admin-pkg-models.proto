@@ -21,7 +21,12 @@ message MealDb {
     string          name        = 2;
     string          description = 3;
     float           price       = 4;
+    Dummy           Dummy       =5;
 }
+message Dummy{
+    repeated string dummies = 1;
+}
+
 message MealsDb{
     repeated MealDb MealsDb = 1;
 }
