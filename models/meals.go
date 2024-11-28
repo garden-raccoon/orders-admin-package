@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/gofrs/uuid"
 
 	proto "github.com/garden-raccoon/orders-admin-package/protocols/orders-admin-package"
@@ -52,8 +53,7 @@ func MealDbFromProto(pb *proto.MealDb) *MealsDb {
 		Description: pb.Description,
 		Uuid:        uuid.FromBytesOrNil(pb.Uuid),
 	}
-	dummy2 := &proto.Dummy{}
-	pb.Dummy = dummy2
+	fmt.Println(" pb.Dummy are", pb.Dummy)
 	dummy := &Dummy{Dummies: pb.Dummy.Dummies}
 	order.Dummy = dummy
 	return order
