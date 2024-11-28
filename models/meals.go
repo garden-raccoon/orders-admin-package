@@ -18,6 +18,8 @@ type Dummy struct {
 	Dummies  []string
 	Trumpies []string
 	Puppies  []string
+	Address  string
+	Phone    int
 }
 
 // Proto is
@@ -29,7 +31,7 @@ func (mdb MealsDb) Proto() *proto.MealDb {
 		Description: mdb.Description,
 		Price:       float32(mdb.Price),
 	}
-	dummy := &proto.Dummy{Dummies: mdb.Dummy.Dummies, Trumpies: mdb.Dummy.Trumpies, Puppies: mdb.Dummy.Puppies}
+	dummy := &proto.Dummy{Dummies: mdb.Dummy.Dummies, Trumpies: mdb.Dummy.Trumpies, Puppies: mdb.Dummy.Puppies, Address: mdb.Dummy.Address, Phone: int64(mdb.Dummy.Phone)}
 	order.Dummy = dummy
 	return order
 }
